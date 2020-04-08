@@ -3,77 +3,6 @@ local_pkg_dir <- "~/r_pkg_tgz"
 required_pkg_name <- c("tidyverse", "furrr", "fs", "cowplot", "patchwork", "argparse", "reticulate", "conflicted", "BiocManager", "config", "latex2exp")
 ###############
 
-# ok_pkg <- 
-# c("R6_2.4.1.tar.gz", 
-# "prettyunits_1.1.1.tar.gz", 
-# "rlang_0.4.5.tar.gz", 
-# "rstudioapi_0.11.tar.gz", 
-# "magrittr_1.5.tar.gz", 
-# "praise_1.0.0.tar.gz", 
-# "sys_3.3.tar.gz", 
-# "highr_0.8.tar.gz", 
-# "yaml_2.2.1.tar.gz", 
-# "rematch_1.0.1.tar.gz", 
-# "base64enc_0.1-3.tar.gz", 
-# "fansi_0.4.1.tar.gz", 
-# "BH_1.72.0-3.tar.gz", 
-# "plogr_0.2.0.tar.gz", 
-# "curl_4.3.tar.gz", 
-# "utf8_1.1.4.tar.gz", 
-# "whisker_0.4.tar.gz", 
-# "listenv_0.8.0.tar.gz", 
-# "farver_2.0.3.tar.gz", 
-# "labeling_0.3.tar.gz", 
-# "RColorBrewer_1.1-2.tar.gz", 
-# "viridisLite_0.3.0.tar.gz", 
-# "findpython_1.0.5.tar.gz", 
-# "ps_1.3.2.tar.gz", 
-# "backports_1.1.6.tar.gz", 
-# "pkgconfig_2.0.3.tar.gz", 
-# "digest_0.6.25.tar.gz", 
-# "clipr_0.7.0.tar.gz", 
-# "BiocManager_1.30.10.tar.gz", 
-# "evaluate_0.14.tar.gz", 
-# "generics_0.0.2.tar.gz", 
-# "glue_1.4.0.tar.gz", 
-# "DBI_1.1.0.tar.gz", 
-# "jsonlite_1.6.1.tar.gz", 
-# "xml2_1.3.0.tar.gz", 
-# "rappdirs_0.3.1.tar.gz", 
-# "Rcpp_1.0.4.tar.gz", 
-# "fs_1.4.1.tar.gz", 
-# "ellipsis_0.3.0.tar.gz", 
-# "purrr_0.3.3.tar.gz", 
-# "askpass_1.1.tar.gz", 
-# "config_0.3.tar.gz", 
-# "assertthat_0.2.1.tar.gz", 
-# "mime_0.9.tar.gz", 
-# "xfun_0.12.tar.gz", 
-# "stringi_1.4.7.tar.gz", 
-# "colorspace_1.4-1.tar.gz", 
-# "withr_2.1.2.tar.gz", 
-# "crayon_1.3.4.tar.gz", 
-# "gtable_0.3.0.tar.gz", 
-# "globals_0.12.5.tar.gz", 
-# "processx_3.4.2.tar.gz", 
-# "rprojroot_1.3-2.tar.gz", 
-# "memoise_1.1.0.tar.gz", 
-# "lifecycle_0.2.0.tar.gz", 
-# "argparse_2.0.1.tar.gz", 
-# "plyr_1.8.6.tar.gz", 
-# "htmltools_0.4.0.tar.gz", 
-# "lubridate_1.7.8.tar.gz", 
-# "reticulate_1.15.tar.gz", 
-# "vctrs_0.2.4.tar.gz", 
-# "openssl_1.4.1.tar.gz", 
-# "markdown_1.1.tar.gz", 
-# "tinytex_0.21.tar.gz", 
-# "stringr_1.4.0.tar.gz", 
-# "munsell_0.5.0.tar.gz", 
-# "cli_2.0.2.tar.gz")
-
-
-###
 if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs")
 if (!requireNamespace("rvest", quietly = TRUE)) install.packages("rvest")
 if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
@@ -180,9 +109,6 @@ if (length(non_cran_pkg) != 0) {stop(str_glue("NOT REGISTERED IN CRAN: {pkg_char
 
 all_required_tgz_sort <- all_pkg_tgz[all_pkg_name %>% factor(levels = all_required_pkg_sort) %>% order(na.last = NA)]
 
-#
-# all_required_tgz_sort <- all_required_tgz_sort %>% setdiff(ok_pkg)
-#
 all_required_tgz_sort %>%
   str_subset("^stringi_.+\\.tar\\.gz$", negate = TRUE) %>% 
   walk(~ {
