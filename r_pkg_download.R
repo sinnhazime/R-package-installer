@@ -1,19 +1,24 @@
 # change here#
 local_pkg_dir <- "~/r_pkg_tgz"
-required_pkg_name <- c("tidyverse", "furrr", "fs", "cowplot", "patchwork", "argparse", "reticulate", "conflicted", "BiocManager", "config", "latex2exp")
+required_pkg_name <- c("ggrepel", "gtools", "doParallel")
 ###############
 
 if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs")
 if (!requireNamespace("rvest", quietly = TRUE)) install.packages("rvest")
 if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
 if (!requireNamespace("igraph", quietly = TRUE)) install.packages("igraph")
-library(rvest)
-library(tidyverse)
-library(igraph)
-library(fs)
+suppressPackageStartupMessages({
+  library(rvest)
+  library(tidyverse)
+  library(igraph)
+  library(fs)
+})
 
-package_list_out <- "pkg_list.txt"
+all_package_list_out <- "pkg_list.all.txt"
+# package_list_out <- "pkg_list.none.txt"
+package_name_out <- "pkg_name.all.txt"
 stringi_tgz <- dir_ls() %>% str_subset("^stringi_.+\\.tar\\.gz$")
+if (length(stringi_tgz) == 0) stringi_tgz <- ""
 
 ## web scraping 1: check dependency
 lib_url <- "https://cran.r-project.org/web/packages/{pkg}/index.html"
@@ -91,6 +96,8 @@ all_required_pkg_sort <-
   names() %>% 
   setdiff(default_pkg)
 
+required_pkg_sort <- 
+  all_required_pkg_sort[all_required_pkg_sort %in% c("stringi", required_pkg_name)]
 ## web scraping 2: download files
 source_url <- "https://ftp.yz.yamagata-u.ac.jp/pub/cran/src/contrib/"
 recall_html <- read_html(source_url)
@@ -108,6 +115,7 @@ non_cran_pkg <- setdiff(all_required_pkg_sort, all_pkg_name)
 if (length(non_cran_pkg) != 0) {stop(str_glue("NOT REGISTERED IN CRAN: {pkg_char}", pkg_char = str_c(non_cran_pkg, collapse = ", ")))}
 
 all_required_tgz_sort <- all_pkg_tgz[all_pkg_name %>% factor(levels = all_required_pkg_sort) %>% order(na.last = NA)]
+required_tgz_sort <- all_pkg_tgz[all_pkg_name %>% factor(levels = required_pkg_sort) %>% order(na.last = NA)]
 
 all_required_tgz_sort %>%
   str_subset("^stringi_.+\\.tar\\.gz$", negate = TRUE) %>% 
@@ -118,6 +126,13 @@ all_required_tgz_sort %>%
 
 setwd(local_pkg_dir)
 
-all_required_tgz_sort %>% 
-  str_replace("^stringi_.+\\.tar\\.gz$", stringi_tgz) %>% 
-  write_lines(fs::path(local_pkg_dir, package_list_out))
+all_package_list_vec <- 
+  all_required_tgz_sort %>% 
+  str_replace("^stringi_.+\\.tar\\.gz$", stringi_tgz)
+# package_list_vec <- 
+#   required_tgz_sort %>% 
+#   str_replace("^stringi_.+\\.tar\\.gz$", stringi_tgz)
+
+write_lines(all_package_list_vec, fs::path(local_pkg_dir, all_package_list_out))
+# write_lines(package_list_vec, fs::path(local_pkg_dir, package_list_out))
+write_lines(all_required_pkg_sort, fs::path(local_pkg_dir, package_name_out))
