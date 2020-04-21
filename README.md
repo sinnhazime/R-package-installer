@@ -20,6 +20,7 @@
 
 [2020/4/21]
 * r_pkg_download.shはr_pkg_download.Rのあるディレクトリで実行する必要があったのを自由に
+* r_pkg_install.shはr_pkg_check_installed.Rのあるディレクトリで実行する必要があったのを自由に
 * r_pkg_download.Rで指定するパラメータをすべてr_pkg_download.shに移動
 * tarへの圧縮・解凍を自動で行うよう変更
 * fsパッケージへの依存を削除
