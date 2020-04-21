@@ -1,9 +1,5 @@
-# change here#
-local_pkg_dir <- "~/r_pkg_tgz"
-required_pkg_name <- c("ggrepel", "gtools", "doParallel")
-###############
+required_pkg_name <- commandArgs(TRUE)
 
-if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs")
 if (!requireNamespace("rvest", quietly = TRUE)) install.packages("rvest")
 if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
 if (!requireNamespace("igraph", quietly = TRUE)) install.packages("igraph")
@@ -11,7 +7,6 @@ suppressPackageStartupMessages({
   library(rvest)
   library(tidyverse)
   library(igraph)
-  library(fs)
 })
 
 all_package_list_out <- "pkg_list.all.txt"
@@ -120,19 +115,15 @@ required_tgz_sort <- all_pkg_tgz[all_pkg_name %>% factor(levels = required_pkg_s
 all_required_tgz_sort %>%
   str_subset("^stringi_.+\\.tar\\.gz$", negate = TRUE) %>% 
   walk(~ {
-    download.file(paste0(source_url, ..1), destfile = fs::path(local_pkg_dir, ..1)) ## download files
+    download.file(paste0(source_url, ..1), destfile = ..1) ## download files
     Sys.sleep(1)
   })
 
-setwd(local_pkg_dir)
 
 all_package_list_vec <- 
   all_required_tgz_sort %>% 
   str_replace("^stringi_.+\\.tar\\.gz$", stringi_tgz)
-# package_list_vec <- 
-#   required_tgz_sort %>% 
-#   str_replace("^stringi_.+\\.tar\\.gz$", stringi_tgz)
 
-write_lines(all_package_list_vec, fs::path(local_pkg_dir, all_package_list_out))
-# write_lines(package_list_vec, fs::path(local_pkg_dir, package_list_out))
-write_lines(all_required_pkg_sort, fs::path(local_pkg_dir, package_name_out))
+write_lines(all_package_list_vec, all_package_list_out)
+write_lines(all_required_pkg_sort, package_name_out)
+

@@ -1,14 +1,17 @@
 #! /bin/bash
 
 # change here #
-pkg_dir="${HOME}/r_pkg_tgz"
+PKG_DIR="${HOME}/r_pkg"
+REQUIRED_PKG=("ggrepel" "gtools" "doParallel")
 ###############
 
 set -eu
-cwd=$PWD
+CWD=$PWD
+SCRIPT_DIR=${0%/*}
+REQUIRED_PKG_STR=$( IFS=$' '; echo "${REQUIRED_PKG[*]}" )
 
-mkdir -p $pkg_dir
-cd $pkg_dir
+mkdir -p ${PKG_DIR}
+cd ${PKG_DIR}
 # download stringi (NO-INTERNET version)
 # see https://github.com/gagolews/stringi/blob/master/INSTALL
 
@@ -45,8 +48,7 @@ R CMD build stringi-master
 rm stringi.zip
 rm stringi-master -rf
 
-cd $cwd
-Rscript --slave --vanilla r_pkg_download.R
+Rscript --slave --vanilla ${SCRIPT_DIR}/r_pkg_download.R ${REQUIRED_PKG_STR}
 
-cd $PWD
-tar cvzf ${pkg_dir} r_pkg_tgz
+cd ${CWD}
+tar cf "${PKG_DIR}.tgz" ${PKG_DIR}
