@@ -12,7 +12,7 @@ suppressPackageStartupMessages({
 all_package_list_out <- "pkg_list.all.txt"
 # package_list_out <- "pkg_list.none.txt"
 package_name_out <- "pkg_name.all.txt"
-stringi_tgz <- dir_ls() %>% str_subset("^stringi_.+\\.tar\\.gz$")
+stringi_tgz <- list.files() %>% str_subset("^stringi_.+\\.tar\\.gz$")
 if (length(stringi_tgz) == 0) stringi_tgz <- ""
 
 ## web scraping 1: check dependency
@@ -66,7 +66,7 @@ non_valid_pkg <- vector("character")
 searched_pkg <- vector("character")
 
 search_pkg <- required_pkg_name %>% setdiff(default_pkg)
-dependency_result <- vector("character")
+dependency_result <- search_pkg %>% `names<-`("__dammy__")
 while (length(search_pkg) > 0) {
   pkg_char <- str_c(search_pkg, collapse = ", ")
   message(paste0("Searching: ", pkg_char))
@@ -89,7 +89,8 @@ all_required_pkg_sort <-
   graph_from_data_frame() %>% 
   topo_sort("in") %>% 
   names() %>% 
-  setdiff(default_pkg)
+  setdiff(default_pkg) %>% 
+  setdiff("__dammy__")
 
 required_pkg_sort <- 
   all_required_pkg_sort[all_required_pkg_sort %in% c("stringi", required_pkg_name)]

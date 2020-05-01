@@ -2,7 +2,7 @@
 
 # change here #
 PKG_DIR="${HOME}/r_pkg"
-REQUIRED_PKG=("ggrepel" "gtools" "doParallel")
+REQUIRED_PKG=("gsalib")
 ###############
 
 set -eu
@@ -25,7 +25,7 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
-if $machine != Mac; then
+if [ $machine != "Mac" ] ; then
   SED="sed"
 else
   SED="gsed"
@@ -48,7 +48,10 @@ R CMD build stringi-master
 rm stringi.zip
 rm stringi-master -rf
 
-Rscript --slave --vanilla ${SCRIPT_DIR}/r_pkg_download.R ${REQUIRED_PKG_STR}
+Rscript --slave --vanilla ${CWD}/${SCRIPT_DIR}/r_pkg_download.R ${REQUIRED_PKG_STR}
+
+cd ..
+PKG_DIR_BASE=`basename ${PKG_DIR}`
+tar cf "${PKG_DIR_BASE}.tgz" ${PKG_DIR_BASE}
 
 cd ${CWD}
-tar cf "${PKG_DIR}.tgz" ${PKG_DIR}
