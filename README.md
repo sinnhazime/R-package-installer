@@ -1,24 +1,28 @@
 # R Package Installer
 
-v0.0.4
+v0.1.0
 
 ## 概要
 
-ネット環境のないサーバーにRのパッケージを依存パッケージを含めてインストールします。
-依存パッケージに既にインストール済みのパッケージがあった場合でも再インストールし直します。
+ネット環境のないサーバーにRのパッケージを依存パッケージを含めてインストールするために、必要な依存パッケージ群を含むローカルリポジトリを作成します。
+CRAN, Bioconductorのパッケージに対応しています。
 
 ## 手順
 
-1. 各.shファイルの"Change here"部分を自分用に変更
-2. 自分のマシンでr_pkg_download.shを実行
-3. ダウンロードしたファイル(デフォルトでは`~/r_pkg.tgz`)をサーバーにアップロード
-4. サーバーでr_pkg_install.shを実行
+1. 自分のマシンでmake_local_repo.Rを実行
+2. 出力ディレクトリ(デフォルトでは`r_repos`)をサーバーにアップロード
+3. make_local_repo.Rの指示通り、サーバーでinstall.packages("<YOUR_PACKAGES>", type = "<type>", repo = "file://<OUTPUT_PATH>")を実行
 
 ## 注意
 
-* Rファイル(r_pkg_download.R)は必要なパッケージ(rvest, tidyverse, fs, igraph)がインストールされていない場合、自動でインストールします。パッケージ環境などを管理している方は自分で先にインストールしてください。
+* 必要なパッケージ(optparse, miniCRAN, BiocManager)がインストールされていない場合、自動でインストールします。パッケージ環境などを管理している方は自分で先にインストールしてください。
+* miniCRANの依存パッケージopenssl, curlのインストールでコケる場合があります。例えばUbuntuの場合、先に`sudo apt install libssl-dev libcurl4-openssl-dev`をしておく必要があります。ご自身の環境に従ってインストールしてください。
+* BiocManagerが入っていない状態でBioconductorのバージョンを指定しなかった場合、BiocManagerをインストール後エラーを吐いて終了します。インストールされたBioconductorのバージョンをデフォルト値として使って良い場合はそのまま再度ランしてください。またはBioconductorのバージョンを指定してランし直してください。
 
 ## History
+
+  [2020/6/15] v0.1.0
+* これまでのファイルをdeprecatedに変更。make_local_repo.Rを新たに作成。
 
 [2020/5/1] v0.0.4
 * bug fix
