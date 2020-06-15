@@ -26,7 +26,8 @@ opts_list <- list(
               type = "character",
               default = "source",
               help = "One of 'source', 'mac.binary', 'mac.binary.el-capitan', 'win.binary'. 
-                If you got error when you specified one of the binary types, please see 'https://cloud.r-project.org/bin/' to check whether packages are available for your R version.
+                If you got error when you specified one of the binary types,
+                please see 'https://cloud.r-project.org/bin/' to check whether packages are available for your R version.
                 [Default: %default]")
 )
 
@@ -34,7 +35,7 @@ parser <- OptionParser(
   usage = "usage: %prog [options] package1 package2 ...", 
   option_list = opts_list,
   description = "
-R package installer: clone R packages you need and thier dependencies for computers with no internet access.
+R package installer: clone R packages you need and their dependencies for computers with no internet access.
 CRAN and Bioconductor packages can be specified. GitHub packages are currently not available.")
 OPTS <- parse_args(parser, positional_arguments = c(1, Inf))
 
@@ -107,4 +108,3 @@ message(
     OPTS$options$output
   )
 )
-# install.packages("forecast", type = OPTS$options$type, repos = paste0("file://", out_dir_path))
