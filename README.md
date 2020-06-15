@@ -11,7 +11,7 @@ CRAN, Bioconductorのパッケージに対応しています。
 
 1. 自分のマシンでmake_local_repo.Rを実行
 2. 出力ディレクトリ(デフォルトでは`r_repos`)をサーバーにアップロード
-3. make_local_repo.Rの指示通り、サーバーでinstall.packages("<YOUR_PACKAGES>", type = "<type>", repo = "file://<OUTPUT_PATH>")を実行
+3. make_local_repo.Rの指示通り、サーバーでinstall.packages("<YOUR_PACKAGES>", type = "<YOUR_TYPE>", repo = "file://<OUTPUT_PATH>")を実行
 
 ## 注意
 
