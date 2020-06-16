@@ -20,7 +20,7 @@ stringiパッケージは本来インストールのためにインターネッ�
 
 * 必要なパッケージ(optparse, miniCRAN, BiocManager)がインストールされていない場合、自動でインストールします。パッケージ環境などを管理している方は自分で先にインストールしてください。
 * miniCRANの依存パッケージopenssl, curlのインストールでコケる場合があります。例えばUbuntuの場合、先に`sudo apt install libssl-dev libcurl4-openssl-dev`をしておく必要があります。ご自身の環境に従ってインストールしてください。
-* BiocManagerが入っていない状態でBioconductorのバージョンを指定しなかった場合、BiocManagerをインストール後エラーを吐いて終了します。インストールされたBioconductorのバージョンをデフォルト値として使って良い場合はそのまま再度ランしてください。またはBioconductorのバージョンを指定してランし直してください。
+* BiocManagerが入っていない状態でBioconductorのバージョンを指定しなかった場合、BiocManagerをインストールした上でエラーを吐いて終了します。インストールされたBioconductorのバージョンをデフォルト値として使って良い場合はそのまま再度ランしてください(--helpオプションで確認可能です。)またはBioconductorのバージョンを指定してランし直してください。
 
 ## History
 
