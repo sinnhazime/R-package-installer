@@ -88,7 +88,7 @@ if (OPTS$options$type == "source" && "stringi" %in% repo_pkgs_names) {
   cwd <- getwd()
   setwd(repo_dir)
   Rbuildignore <- readLines("stringi-master/.Rbuildignore")
-  Rbuildignore <- sub("icu\\.\\.", "data", Rbuildignore)
+  Rbuildignore <- grep("icu../data", Rbuildignore, invert = TRUE, value = TRUE)
   writeLines(Rbuildignore, "stringi-master/.Rbuildignore")
   system2("R", c("CMD", "build", "stringi-master"))
   setwd(cwd)
