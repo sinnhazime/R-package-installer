@@ -107,7 +107,7 @@ message(
     "You can install R packages by 'install.packages(c(%s), type = '%s', repos = '%s')' after you copy '%s' to the computer where you want to install R packages.",
     paste0(paste0("'", OPTS$args, "'"), collapse = ", "),
     OPTS$options$type,
-    paste0("file://", out_dir_path),
+    paste0("file://<PATH_TO_LOCAL_REPOSITORY>/", OPTS$options$output),
     OPTS$options$output
   )
 )

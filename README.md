@@ -10,6 +10,40 @@ CRAN, Bioconductorのパッケージに対応しています。
 
 stringiパッケージは本来インストールのためにインターネットアクセスが必要ですが、stringi開発者の解説に従って、インターネットアクセスがない場合でもインストール可能なファイルに自動的に変換します。(参照: https://github.com/gagolews/stringi/blob/master/INSTALL)
 
+## 使い方
+
+`Rscript make_local_repo.R --help`
+
+    Usage: make_local_repo.R [options] package1 package2 ...
+    
+    R package installer: clone R packages you need and their dependencies for computers with no internet access.
+    CRAN and Bioconductor packages can be specified. GitHub packages are currently not available.
+    
+    Options:
+            -q, --quiet
+                    Print little output
+    
+            -o OUTPUT, --output=OUTPUT
+                    An output directory where packages will be downloaded. [Default: r_repos]
+    
+            -r R_VER, --r_ver=R_VER
+                    The version of R in the computer you want to install packages.
+                    [Default: the version of R where this script is running: 3.6.3]
+    
+            -b BIOC_VER, --bioc_ver=BIOC_VER
+                    The version of BiocManager in the computer you want to install packages.
+                    [Default: the version of BiocManager in the computer where this script is running: 3.10]
+    
+            -t TYPE, --type=TYPE
+                    One of 'source', 'mac.binary', 'mac.binary.el-capitan', 'win.binary'.
+                    If you got error when you specified one of the binary types,
+                    please see 'https://cloud.r-project.org/bin/' to check whether packages are available for your R version.
+                    [Default: source]
+    
+            -h, --help
+                    Show this help message and exit
+
+
 ## 手順
 
 1. 自分のマシンでmake_local_repo.Rを実行
@@ -24,7 +58,10 @@ stringiパッケージは本来インストールのためにインターネッ�
 
 ## History
 
-  [2020/6/15] v0.1.0
+[2020/7/13] v0.1.1
+* 標準エラー出力の情報を調整
+
+[2020/6/15] v0.1.0
 * これまでのファイルをdeprecatedに変更。make_local_repo.Rを新たに作成。
 
 [2020/5/1] v0.0.4
