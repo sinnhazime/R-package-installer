@@ -16,21 +16,27 @@ opts_list <- list(
               type = "character",
               default = paste(R.version$major, R.version$minor, sep = "."),
               help = "The version of R in the computer you want to install packages. 
-                [Default: the version of R where this script is running: %default]"),
+                [Default: the version of R where this script is running (%default)]"),
   make_option(c("-b", "--bioc_ver"),
               type = "character",
               default = if (requireNamespace("BiocManager", quietly = TRUE)) as.character(BiocManager::version()) else NA_character_,
               help = "The version of BiocManager in the computer you want to install packages. 
-                [Default: the version of BiocManager in the computer where this script is running: %default]"),
+                [Default: the version of BiocManager in the computer where this script is running (%default)]"),
   make_option(c("-t", "--type"),
               type = "character",
               default = "source",
               help = "One of 'source', 'mac.binary', 'mac.binary.el-capitan', 'win.binary'. 
                 If you got error when you specified one of the binary types,
                 please see 'https://cloud.r-project.org/bin/' to check whether packages are available for your R version.
-                [Default: %default]")
+                [Default: %default]"),
+  make_option(c("-c", "--cran"),
+              type = "character",
+              default = "https://cran.rstudio.com/",
+              help = "Path to CRAN repository. [Default: %default]"
+              )
 )
 
+# Optparse
 parser <- OptionParser(
   usage = "usage: %prog [options] package1 package2 ...", 
   option_list = opts_list,
@@ -38,6 +44,11 @@ parser <- OptionParser(
 R package installer: clone R packages you need and their dependencies for computers with no internet access.
 CRAN and Bioconductor packages can be specified. GitHub packages are currently not available.")
 OPTS <- parse_args(parser, positional_arguments = c(1, Inf))
+
+# set the CRAN repository
+opt_repos <- getOption("repos")
+opt_repos <- c(opt_repos[!names(opt_repos) == "CRAN"], c(CRAN = OPTS$options$cran))
+options(repos = opt_repos)
 
 if (!requireNamespace("miniCRAN", quietly = TRUE)) install.packages("miniCRAN")
 suppressPackageStartupMessages(library(miniCRAN))
